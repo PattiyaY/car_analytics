@@ -47,19 +47,19 @@ function Table() {
   /**
    * This function merge MMList: [{"Name": "HONDA"}] to Cars[{"Cid": 2766489, ...}]
    * to have the brand of the car in one place.
-   * 
+   *
    * How we do it?
    * By checking the `mkID` from `MMList` to `MkID` from `Cars`.
    * If match, we create a `BrandName: []` where the car object belong to that `BrandName`
-   * 
+   *
    * For example:
    * {
    *    TOYOTA: [{
    *      "Name": "TOYOTA",
-   *      ...   
+   *      ...
    *    }]
    * }
-   * 
+   *
    * The formatted json object is in `data` variable
    */
   // TODO(jan): Use better function name
@@ -123,7 +123,7 @@ function Table() {
                         {car["Prc"]}
                       </td>
                     </tr>
-                  ))
+                  )),
                 )}
               </tbody>
             </table>

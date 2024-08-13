@@ -15,7 +15,6 @@ const router = createBrowserRouter([
     path: "/highlight",
     element: <Highlight />,
   },
-
 ]);
 createRoot(document.getElementById("root")).render(
   <StrictMode>
