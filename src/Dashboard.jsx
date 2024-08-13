@@ -41,16 +41,40 @@ function Dashboard() {
 //     },
 
 function Table() {
-  // TODO(jan): Use better variabler name
-  let data = [];
+  // TODO(jan): Use better variable name
+  let data = {};
 
+  /**
+   * This function merge MMList: [{"Name": "HONDA"}] to Cars[{"Cid": 2766489, ...}]
+   * to have the brand of the car in one place.
+   * 
+   * How we do it?
+   * By checking the `mkID` from `MMList` to `MkID` from `Cars`.
+   * If match, we create a `BrandName: []` where the car object belong to that `BrandName`
+   * 
+   * For example:
+   * {
+   *    TOYOTA: [{
+   *      "Name": "TOYOTA",
+   *      ...   
+   *    }]
+   * }
+   * 
+   * The formatted json object is in `data` variable
+   */
   // TODO(jan): Use better function name
-  (function carRearrangeForTable() {
+  (function findCarBrand() {
     // TODO(jan): Optimize brand mapping
     taladrodCar["Cars"].forEach((car) => {
       taladrodCar["MMList"].forEach((carModel) => {
         if (car["MkID"] == carModel["mkID"]) {
-          data.push({ Brand: carModel["Name"], ...car });
+          let brand = carModel["Name"];
+          if (brand in data) {
+            data[`${brand}`].push({ Name: carModel["Name"], ...car });
+          } else {
+            data[`${brand}`] = [];
+            data[`${brand}`].push({ Name: carModel["Name"], ...car });
+          }
         }
       });
     });
@@ -70,6 +94,7 @@ function Table() {
             <table className="border-collapse table-auto w-full text-sm">
               <thead>
                 <tr>
+                  <th className="border-b dark:border-slate-600 font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left"></th>
                   <th className="border-b dark:border-slate-600 font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left">
                     Brand
                   </th>
@@ -82,19 +107,24 @@ function Table() {
                 </tr>
               </thead>
               <tbody className="bg-white dark:bg-slate-800">
-                {data.map((car, index) => (
-                  <tr key={index}>
-                    <td className="border-b border-slate-100 dark:border-slate-700 p-4 pl-8 text-slate-500 dark:text-slate-400">
-                      {car["Brand"]}
-                    </td>
-                    <td className="border-b border-slate-100 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400">
-                      {car["Model"]}
-                    </td>
-                    <td className="border-b border-slate-100 dark:border-slate-700 p-4 pr-8 text-slate-500 dark:text-slate-400">
-                      {car["Prc"]}
-                    </td>
-                  </tr>
-                ))}
+                {Object.keys(data).map((carModel) =>
+                  data[carModel].map((car, index) => (
+                    <tr key={index}>
+                      <td className="border-b border-slate-100 dark:border-slate-700 p-4 pl-8 text-slate-500 dark:text-slate-400 font-bold">
+                        {car["Name"]}
+                      </td>
+                      <td className="border-b border-slate-100 dark:border-slate-700 p-4 pl-8 text-slate-500 dark:text-slate-400">
+                        {car["Name"]}
+                      </td>
+                      <td className="border-b border-slate-100 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400">
+                        {car["Model"]}
+                      </td>
+                      <td className="border-b border-slate-100 dark:border-slate-700 p-4 pr-8 text-slate-500 dark:text-slate-400">
+                        {car["Prc"]}
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>
