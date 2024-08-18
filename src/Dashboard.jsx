@@ -1,86 +1,52 @@
+import { useEffect, useState } from "react";
 import taladrodCar from "./data/taladrod-cars.min.json";
+import NavBar from "./NavBar";
 
 function Dashboard() {
   return (
     <>
+      <NavBar />
       <Table />
     </>
   );
 }
 
-// "Cars": [
-//     {
-//         "Cid": 2766489,
-//         "IsCExp": false,
-//         "MkID": 29,
-//         "MdID": 428,
-//         "BdID": 606,
-//         "Model": "JAZZ",
-//         "NameMMT": "HONDA JAZZ 1.5 i-VTEC V ปี08-14",
-//         "Prc": "258,000",
-//         "Yr": 2011,
-//         "Upd": "7",
-//         "PageViews": "10",
-//         "Img100": "https://imgc1.taladrod.com/c/cidx/012/319/01_1T.jpg",
-//         "Img300": "https://imgc1.taladrod.com/c/cidx/012/319/01_1T3.jpg",
-//         "Img600": "https://imgc1.taladrod.com/c/cidx/012/319/01_1.jpg",
-//         "Icon": "https://m.taladrod.com/assets/icons/NW.png?v=1.1",
-//         "Province": "Bangkok",
-//         "Currency": "Baht",
-//         "DPmt": "0",
-//         "Status": "new"
-//     },
-
-// "MMList": [
-//     {
-//         "mkID": 29,
-//         "mdID": 0,
-//         "bdID": 0,
-//         "taID": 0,
-//         "Name": "HONDA"
-//     },
-
 function Table() {
-  // TODO(jan): Use better variable name
-  let data = {};
+  const [highlightItems, setHighlightItems] = useState([]);
+  localStorage.setItem("highlight", JSON.stringify(highlightItems));
 
-  /**
-   * This function merge MMList: [{"Name": "HONDA"}] to Cars[{"Cid": 2766489, ...}]
-   * to have the brand of the car in one place.
-   *
-   * How we do it?
-   * By checking the `mkID` from `MMList` to `MkID` from `Cars`.
-   * If match, we create a `BrandName: []` where the car object belong to that `BrandName`
-   *
-   * For example:
-   * {
-   *    TOYOTA: [{
-   *      "Name": "TOYOTA",
-   *      ...
-   *    }]
-   * }
-   *
-   * The formatted json object is in `data` variable
-   */
-  // TODO(jan): Use better function name
-  (function findCarBrand() {
-    // TODO(jan): Optimize brand mapping
-    taladrodCar["Cars"].forEach((car) => {
-      taladrodCar["MMList"].forEach((carModel) => {
-        if (car["MkID"] == carModel["mkID"]) {
-          let brand = carModel["Name"];
-          if (brand in data) {
-            data[`${brand}`].push({ Name: carModel["Name"], ...car });
-          } else {
-            data[`${brand}`] = [];
-            data[`${brand}`].push({ Name: carModel["Name"], ...car });
-          }
-        }
-      });
+  const [brandToCarsMap, setBrandToCarsMap] = useState({});
+
+  function handleOnClick(event) {
+    //TODO(jan): get data of click row
+    let car = event;
+    setHighlightItems([car]);
+  }
+
+  function groupCarsByBrand() {
+    const brandMap = new Map();
+
+    taladrodCar["MMList"].forEach((carModel) => {
+      brandMap.set(carModel["mkID"], carModel["Name"]);
     });
-  })();
 
-  console.log(data);
+    const groupedCars = {};
+    taladrodCar["Cars"].forEach((car) => {
+      const brandName = brandMap.get(car["MkID"]);
+      if (brandName) {
+        if (!groupedCars[brandName]) {
+          groupedCars[brandName] = [];
+        }
+        groupedCars[brandName].push({ Name: brandName, ...car });
+      }
+    });
+
+    setBrandToCarsMap(groupedCars);
+  }
+
+  useEffect(() => {
+    groupCarsByBrand();
+  }, []);
 
   return (
     <div className="flex flex-col my-5 text-white">
@@ -88,7 +54,7 @@ function Table() {
         <div className="mx-2 bg-black w-1/2">pie chart</div>
         <div className="mx-2 bg-black w-1/2">bar stack</div>
       </div>
-      {Object.keys(data).map((carModel) => (
+      {Object.keys(brandToCarsMap).map((carModel) => (
         <div key={carModel} className="p-1 w-full">
           <details className="bg-black rounded px-5">
             <summary className="text-xl">{carModel}</summary>
@@ -110,7 +76,7 @@ function Table() {
                 </tr>
               </thead>
               <tbody className="bg-white">
-                {data[carModel].map((car, index) => (
+                {brandToCarsMap[carModel].map((car, index) => (
                   <tr key={`${carModel}-${index}`}>
                     <td className="border-b border-slate-100 dark:border-slate-700 p-3 text-slate-500 dark:text-black">
                       {index + 1}
