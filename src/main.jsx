@@ -12,7 +12,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Dashboard />,
-    errorElement: <ErrorPage />
+    errorElement: <ErrorPage />,
   },
   // {
   //   path: "/dashboard",
@@ -26,5 +26,5 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <RouterProvider router={router} />
-  </StrictMode>,
+  </StrictMode>
 );
