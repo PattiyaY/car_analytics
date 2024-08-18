@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import taladrodCar from "./data/taladrod-cars.min.json";
+import NavBar from "./NavBar";
 
 function Dashboard() {
   return (
     <>
+      <NavBar />
       <Table />
     </>
   );

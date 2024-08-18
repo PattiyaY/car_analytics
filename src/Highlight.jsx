@@ -1,7 +1,9 @@
-function Highlight() {
+import NavBar from "./NavBar";
+
+function Highlight(data) {
   return (
     <>
-      <h1>Highlight</h1>
+      <NavBar />
     </>
   );
 }
