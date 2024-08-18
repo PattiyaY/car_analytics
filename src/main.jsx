@@ -10,12 +10,12 @@ const router = createBrowserRouter([
   // Default path: "/"
   {
     path: "/",
-    element: <Home />,
-  },
-  {
-    path: "/dashboard",
     element: <Dashboard />,
   },
+  // {
+  //   path: "/dashboard",
+  //   element: <Dashboard />,
+  // },
   {
     path: "/highlight",
     element: <Highlight />,
@@ -24,5 +24,5 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <RouterProvider router={router} />
-  </StrictMode>
+  </StrictMode>,
 );
