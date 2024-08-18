@@ -5,7 +5,6 @@ import NavBar from "./NavBar";
 function Dashboard() {
   return (
     <>
-      <NavBar />
       <Table />
     </>
   );
