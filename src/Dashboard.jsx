@@ -78,7 +78,7 @@ function Table() {
                         {car["Prc"]}
                       </td>
                     </tr>
-                  ))
+                  )),
                 )}
               </tbody>
             </table>
