@@ -10,6 +10,9 @@ function Dashboard() {
 }
 
 function Table() {
+  const [highlightItems, setHighlightItems] = useState([]);
+  localStorage.setItem("highlight", JSON.stringify(highlightItems));
+
   const [brandToCarsMap, setBrandToCarsMap] = useState({});
 
   function groupCarsByBrand() {
