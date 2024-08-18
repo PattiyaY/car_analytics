@@ -17,6 +17,12 @@ function Table() {
 
   const [brandToCarsMap, setBrandToCarsMap] = useState({});
 
+  function handleOnClick(event) {
+    //TODO(jan): get data of click row
+    let car = event
+    setHighlightItems([car])
+  }
+
   function groupCarsByBrand() {
     const brandMap = new Map();
 
