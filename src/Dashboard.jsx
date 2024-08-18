@@ -89,13 +89,27 @@ function Table() {
                         {car["Prc"]}
                       </td>
                     </tr>
-                  )),
-                )}
-              </tbody>
-            </table>
-          </div>
+                  </thead>
+                  <tbody className="bg-white">
+                    {data[carModel].map((car, index) => (
+                      <tr key={`${carModel}-${index}`}>
+                        <td className="border-b border-slate-100 dark:border-slate-700 p-3 text-slate-500 dark:text-black">
+                          {index + 1}
+                        </td>
+                        <td className="border-b border-slate-100 dark:border-slate-700 p-2 text-slate-500 dark:text-black">
+                          {car["Model"]}
+                        </td>
+                        <td className="border-b border-slate-100 dark:border-slate-700 p-2 pr-8 text-slate-500 dark:text-black">
+                          {car["Prc"]}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </details>
+            </div>
+          ))}
         </div>
-        <div className="absolute inset-0 pointer-events-none border border-black/5 rounded-xl dark:border-white/5"></div>
       </div>
     </div>
   );
