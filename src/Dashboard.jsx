@@ -51,7 +51,7 @@ function Table() {
 <div className="flex my-5 text-white">
       <div className="relative rounded-xl overflow-auto">
         <div className="shadow-sm overflow-hidden my-4">
-          {Object.keys(taladrodCar).map((carModel) => (
+          {Object.keys(brandToCarsMap).map((carModel) => (
             <div key={carModel} className="p-1 w-[350px]">
               <details className="bg-slate-800 rounded px-5">
                 <summary>{carModel}</summary>
@@ -73,7 +73,7 @@ function Table() {
                     </tr>
                   </thead>
                   <tbody className="bg-white">
-                    {taladrodCar[carModel].map((car, index) => (
+                    {brandToCarsMap[carModel].map((car, index) => (
                       <tr key={`${carModel}-${index}`}>
                         <td className="border-b border-slate-100 dark:border-slate-700 p-3 text-slate-500 dark:text-black">
                           {index + 1}
