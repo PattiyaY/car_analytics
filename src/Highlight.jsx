@@ -1,13 +1,13 @@
 import Card from "./Card";
-import NavBar from "./NavBar";
 
-function Highlight(data) {
+function Highlight() {
+  const data = JSON.parse(localStorage.getItem("highlight"));
   return (
-    <>
-      {data.map((each) => (
-        <Card data={each} />
+    <div className="px-10 flex gap-5">
+      {data.map((each, index) => (
+        <Card key={index} data={each} />
       ))}
-    </>
+    </div>
   );
 }
 
