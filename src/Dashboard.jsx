@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import taladrodCar from "./data/taladrod-cars.min.json";
-import NavBar from "./NavBar";
 import { PieChart } from "@mui/x-charts/PieChart";
 import { BarChart } from "@mui/x-charts/BarChart";
 
@@ -13,8 +12,22 @@ function Dashboard() {
 }
 
 function Table() {
-  const [highlightItems, setHighlightItems] = useState([]);
-  localStorage.setItem("highlight", JSON.stringify(highlightItems));
+  const [highlightItems, setHighlightItems] = useState([
+    {
+      brand: "TOYOTA",
+      model: "JAZZ",
+      Img300: "https://imgc1.taladrod.com/c/cidx/012/319/01_1T3.jpg",
+      Currency: "Baht",
+      Status: "new",
+      NameMMT: "HONDA JAZZ 1.5 i-VTEC V ปี08-14",
+      Prc: "258,000",
+      Province: "Bangkok",
+    },
+  ]);
+
+  useEffect(() => {
+    localStorage.setItem("highlight", JSON.stringify(highlightItems));
+  }, [highlightItems]);
 
   const [brandToCarsMap, setBrandToCarsMap] = useState({});
 
