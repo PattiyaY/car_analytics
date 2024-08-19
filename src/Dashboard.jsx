@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import taladrodCar from "./data/taladrod-cars.min.json";
 import NavBar from "./NavBar";
 import { PieChart } from "@mui/x-charts/PieChart";
