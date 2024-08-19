@@ -16,7 +16,17 @@ function Table() {
     {
       brand: "TOYOTA",
       model: "JAZZ",
-      Img300: "https://imgc1.taladrod.com/c/cidx/012/319/01_1T3.jpg",
+      Img600: "https://imgc1.taladrod.com/c/cidx/012/319/01_1.jpg",
+      Currency: "Baht",
+      Status: "new",
+      NameMMT: "HONDA JAZZ 1.5 i-VTEC V ปี08-14",
+      Prc: "258,000",
+      Province: "Bangkok",
+    },
+    {
+      brand: "TOYOTA",
+      model: "JAZZ",
+      Img600: "https://imgc1.taladrod.com/c/cidx/012/319/01_1.jpg",
       Currency: "Baht",
       Status: "new",
       NameMMT: "HONDA JAZZ 1.5 i-VTEC V ปี08-14",
