@@ -4,7 +4,9 @@ import NavBar from "./NavBar";
 function Highlight(data) {
   return (
     <>
-      <Card />
+      {data.map((each) => (
+        <Card data={each} />
+      ))}
     </>
   );
 }

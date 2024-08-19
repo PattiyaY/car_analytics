@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function NavBar() {
   return (
     <nav className="px-16 py-5">
@@ -8,17 +10,17 @@ function NavBar() {
         <div className="">
           <ul className="flex gap-5">
             <li>
-              <a href="/" className="hover:underline hover:text-blue-500">
+              <Link to="/" className="hover:underline hover:text-blue-500">
                 Dashboard
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="/highlight"
+              <Link
+                to="/highlight"
                 className="hover:underline hover:text-blue-500"
               >
                 Highlight
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
