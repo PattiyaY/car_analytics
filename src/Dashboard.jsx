@@ -45,46 +45,104 @@ function Table() {
     setBrandToCarsMap(groupedCars);
   }
 
+  function pieChartData(brandToCarsMap) {
+    const data = [];
+    Object.keys(brandToCarsMap).forEach((carModel, index) => {
+      const carCount = brandToCarsMap[carModel].length;
+      data.push({
+        id: index + 1,
+        value: carCount,
+        label: carModel,
+      });
+      // console.log(brandToCarsMap[carModel]);
+    });
+
+    data.sort((a, b) => b.value - a.value);
+
+    return data;
+  }
+
+  const colors = [
+    "#FAD02E", // Pastel Yellow
+    "#F28D35", // Pastel Orange
+    "#F77F7D", // Pastel Pink
+    "#D7A9A3", // Pastel Red
+    "#A5D8DD", // Pastel Blue
+    "#B5E2A0", // Pastel Green
+    "#E6B0AA", // Pastel Rose
+  ];
+
+  function barChartData(brandToCarsMap) {
+    const data = [];
+    const modelCountMap = {};
+
+    // Count the occurrences of each model for each brand
+    Object.keys(brandToCarsMap).forEach((carModel) => {
+      brandToCarsMap[carModel].forEach((car) => {
+        const key = `${carModel}-${car.Model}`;
+        if (modelCountMap[key]) {
+          modelCountMap[key].count += 1;
+        } else {
+          modelCountMap[key] = {
+            brand: carModel,
+            model: car.Model,
+            count: 1,
+          };
+        }
+      });
+    });
+
+    // Convert modelCountMap to an array
+    for (const key in modelCountMap) {
+      data.push(modelCountMap[key]);
+    }
+
+    return data;
+  }
+
   useState(() => {
     groupCarsByBrand();
   }, []);
 
   return (
     <div className="flex flex-col text-white bg-white">
-      <div className="flex flex-row justify-between text-neutral-100 mt-20">
-        <div className="mx-2 w-1/2">
-          <PieChart
-            series={[
-              {
-                data: [
-                  { id: 0, value: 10, label: "series A" },
-                  { id: 1, value: 15, label: "series B" },
-                  { id: 2, value: 20, label: "series C" },
-                ],
-              },
-            ]}
-            width={500}
-            height={350}
-          />
-        </div>
-        <div className="mx-2 w-1/2">
-          <BarChart
-            xAxis={[
-              {
-                id: "barCategories",
-                data: ["bar A", "bar B", "bar C"],
-                scaleType: "band",
-              },
-            ]}
-            series={[
-              {
-                data: [2, 5, 3],
-              },
-            ]}
-            width={500}
-            height={350}
-          />
-        </div>
+      <h1 className="text-center text-4xl p-4 mb-10 font-semibold bg-[#3C3D37] rounded">
+        Car Brand Proportions
+      </h1>
+      <div className="w-1/2">
+        <PieChart
+          colors={colors}
+          series={[
+            {
+              arcLabel: (item) => `(${item.value})`,
+              innerRadius: 10,
+              paddingAngle: 1,
+              startAngle: 90,
+              endAngle: 500,
+              data: pieChartData(brandToCarsMap),
+            },
+          ]}
+          width={1200}
+          height={400}
+        />
+      </div>
+      <h1 className="text-center text-4xl p-4 my-10 font-semibold bg-[#3C3D37] rounded">
+        Car Models by Brand
+      </h1>
+      <div className="mx-2 w-1/2">
+        <BarChart
+          dataset={barChartData(brandToCarsMap)}
+          xAxis={[{ scaleType: "band", dataKey: "brand" }]}
+          series={[
+            {
+              dataKey: "count",
+              stack: "models", // Optional: you can use stack if you have multiple series
+              label: "Number of Models",
+            },
+          ]}
+          width={1200}
+          height={400}
+        />
       </div>
       <div className="rounded-t-[100px] mt-20 bg-[#3C3D37] pl-2 py-3">
         <p className="text-center text-2xl mt-5 mb-10 font-semibold">
@@ -93,7 +151,9 @@ function Table() {
         {Object.keys(brandToCarsMap).map((carModel) => (
           <div key={carModel} className="p-1 w-full border-slate-400 rounded">
             <details className="rounded px-5">
-              <summary className="text-xl">{carModel}</summary>
+              <summary className="text-xl text-stone-400 hover:text-white">
+                {carModel}
+              </summary>
               <table
                 className="border-collapse table-auto w-full text-sm mb-6 border-slate-400 mt-5"
                 key={carModel}
@@ -101,7 +161,10 @@ function Table() {
                 <thead>
                   <tr>
                     <th className="border-b font-medium p-4 pt-0 pb-3 text-left">
-                      #
+                      Highlight
+                    </th>
+                    <th className="border-b font-medium p-4 pt-0 pb-3 text-left">
+                      Number
                     </th>
                     <th className="border-b font-medium p-4 pt-0 pb-3 text-left">
                       Model
@@ -114,6 +177,24 @@ function Table() {
                 <tbody className="bg-white">
                   {brandToCarsMap[carModel].map((car, index) => (
                     <tr key={`${carModel}-${index}`}>
+                      <td className="border-b border-slate-100 dark:border-slate-700 p-3 text-slate-500 dark:text-black">
+                        <button onClick={handleOnClick}>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="size-6"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z"
+                            />
+                          </svg>
+                        </button>
+                      </td>
                       <td className="border-b border-slate-100 dark:border-slate-700 p-3 text-slate-500 dark:text-black">
                         {index + 1}
                       </td>
