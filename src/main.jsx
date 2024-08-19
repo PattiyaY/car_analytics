@@ -1,13 +1,12 @@
 import { StrictMode } from "react";
-import Home from "./Home.jsx";
 import Dashboard from "./Dashboard.jsx";
 import Highlight from "./Highlight.jsx";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./error-page";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <Dashboard />,
