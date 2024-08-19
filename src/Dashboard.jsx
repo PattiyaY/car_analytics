@@ -161,7 +161,10 @@ function Table() {
                 <thead>
                   <tr>
                     <th className="border-b font-medium p-4 pt-0 pb-3 text-left">
-                      #
+                      Highlight
+                    </th>
+                    <th className="border-b font-medium p-4 pt-0 pb-3 text-left">
+                      Number
                     </th>
                     <th className="border-b font-medium p-4 pt-0 pb-3 text-left">
                       Model
@@ -174,6 +177,24 @@ function Table() {
                 <tbody className="bg-white">
                   {brandToCarsMap[carModel].map((car, index) => (
                     <tr key={`${carModel}-${index}`}>
+                      <td className="border-b border-slate-100 dark:border-slate-700 p-3 text-slate-500 dark:text-black">
+                        <button onClick={handleOnClick}>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="size-6"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z"
+                            />
+                          </svg>
+                        </button>
+                      </td>
                       <td className="border-b border-slate-100 dark:border-slate-700 p-3 text-slate-500 dark:text-black">
                         {index + 1}
                       </td>
