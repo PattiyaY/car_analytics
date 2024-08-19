@@ -54,9 +54,11 @@ function Table() {
         value: carCount,
         label: carModel,
       });
+      // console.log(brandToCarsMap[carModel]);
     });
 
     data.sort((a, b) => b.value - a.value);
+
     return data;
   }
 
@@ -69,6 +71,34 @@ function Table() {
     "#B5E2A0", // Pastel Green
     "#E6B0AA", // Pastel Rose
   ];
+
+  function barChartData(brandToCarsMap) {
+    const data = [];
+    const modelCountMap = {};
+
+    // Count the occurrences of each model for each brand
+    Object.keys(brandToCarsMap).forEach((carModel) => {
+      brandToCarsMap[carModel].forEach((car) => {
+        const key = `${carModel}-${car.Model}`;
+        if (modelCountMap[key]) {
+          modelCountMap[key].count += 1;
+        } else {
+          modelCountMap[key] = {
+            brand: carModel,
+            model: car.Model,
+            count: 1,
+          };
+        }
+      });
+    });
+
+    // Convert modelCountMap to an array
+    for (const key in modelCountMap) {
+      data.push(modelCountMap[key]);
+    }
+
+    return data;
+  }
 
   useState(() => {
     groupCarsByBrand();
@@ -101,16 +131,13 @@ function Table() {
       </h1>
       <div className="mx-2 w-1/2">
         <BarChart
-          xAxis={[
-            {
-              id: "barCategories",
-              data: ["bar A", "bar B", "bar C"],
-              scaleType: "band",
-            },
-          ]}
+          dataset={barChartData(brandToCarsMap)}
+          xAxis={[{ scaleType: "band", dataKey: "brand" }]}
           series={[
             {
-              data: [2, 5, 3],
+              dataKey: "count",
+              stack: "models", // Optional: you can use stack if you have multiple series
+              label: "Number of Models",
             },
           ]}
           width={1200}
