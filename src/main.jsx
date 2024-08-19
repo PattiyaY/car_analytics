@@ -12,15 +12,12 @@ const router = createHashRouter([
     element: <Dashboard />,
     errorElement: <ErrorPage />,
   },
-  // {
-  //   path: "/dashboard",
-  //   element: <Dashboard />,
-  // },
   {
     path: "/highlight",
     element: <Highlight />,
   },
 ]);
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <RouterProvider router={router} />
