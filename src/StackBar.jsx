@@ -25,7 +25,6 @@ const StackBar = ({ brandToCarsMap }) => {
   function barChartData(brandToCarsMap) {
     const modelCountMap = {};
 
-    // Count the occurrences of each model for each brand
     Object.keys(brandToCarsMap).forEach((brand) => {
       brandToCarsMap[brand].forEach((car) => {
         const key = `${brand}-${car.Model}`;
@@ -41,8 +40,13 @@ const StackBar = ({ brandToCarsMap }) => {
       });
     });
 
+    // Convert modelCountMap to an array and sort by count
+    const sortedData = Object.values(modelCountMap).sort(
+      (a, b) => b.count - a.count
+    );
+
     // Group data by brand
-    const groupedData = Object.values(modelCountMap).reduce((acc, item) => {
+    const groupedData = sortedData.reduce((acc, item) => {
       if (!acc[item.brand]) {
         acc[item.brand] = {};
       }
