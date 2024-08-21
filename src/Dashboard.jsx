@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import taladrodCar from "./data/taladrod-cars.min.json";
-import { PieChart } from "@mui/x-charts/PieChart";
-import { BarChart } from "@mui/x-charts/BarChart";
+import StackBar from "./StackBar";
 
 function Dashboard() {
   return (
@@ -85,87 +84,23 @@ function Table() {
     return data;
   }
 
-  const colors = [
-    "#FAD02E", // Pastel Yellow
-    "#F28D35", // Pastel Orange
-    "#F77F7D", // Pastel Pink
-    "#D7A9A3", // Pastel Red
-    "#A5D8DD", // Pastel Blue
-    "#B5E2A0", // Pastel Green
-    "#E6B0AA", // Pastel Rose
-  ];
-
-  function barChartData(brandToCarsMap) {
-    const data = [];
-    const modelCountMap = {};
-
-    // Count the occurrences of each model for each brand
-    Object.keys(brandToCarsMap).forEach((carModel) => {
-      brandToCarsMap[carModel].forEach((car) => {
-        const key = `${carModel}-${car.Model}`;
-        if (modelCountMap[key]) {
-          modelCountMap[key].count += 1;
-        } else {
-          modelCountMap[key] = {
-            brand: carModel,
-            model: car.Model,
-            count: 1,
-          };
-        }
-      });
-    });
-
-    // Convert modelCountMap to an array
-    for (const key in modelCountMap) {
-      data.push(modelCountMap[key]);
-    }
-
-    return data;
-  }
-
   useState(() => {
     groupCarsByBrand();
   }, []);
 
   return (
     <div className="flex flex-col text-white bg-white">
-      <h1 className="text-center text-4xl p-4 mb-10 font-semibold bg-[#3C3D37] rounded">
+      <h1 className="font-medium text-2xl p-4 mb-10 font-semibold bg-[#3C3D37] rounded">
         Car Brand Proportions
       </h1>
-      <div className="w-1/2">
-        <PieChart
-          colors={colors}
-          series={[
-            {
-              arcLabel: (item) => `(${item.value})`,
-              innerRadius: 10,
-              paddingAngle: 1,
-              startAngle: 90,
-              endAngle: 500,
-              data: pieChartData(brandToCarsMap),
-            },
-          ]}
-          width={1200}
-          height={400}
-        />
-      </div>
-      <h1 className="text-center text-4xl p-4 my-10 font-semibold bg-[#3C3D37] rounded">
+      {/* <div className="w-1/2">
+        
+      </div> */}
+      <h1 className="font-medium text-2xl p-4 my-10 font-semibold bg-[#3C3D37] rounded">
         Car Models by Brand
       </h1>
-      <div className="mx-2 w-1/2">
-        <BarChart
-          dataset={barChartData(brandToCarsMap)}
-          xAxis={[{ scaleType: "band", dataKey: "brand" }]}
-          series={[
-            {
-              dataKey: "count",
-              stack: "models", // Optional: you can use stack if you have multiple series
-              label: "Number of Models",
-            },
-          ]}
-          width={1200}
-          height={400}
-        />
+      <div className="flex justify-center w-full w-screen h-100vh mt-10">
+        <StackBar brandToCarsMap={brandToCarsMap} />
       </div>
       <div className="rounded-t-[100px] mt-20 bg-[#3C3D37] pl-2 py-3">
         <p className="text-center text-2xl mt-5 mb-10 font-semibold">
