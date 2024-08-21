@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import taladrodCar from "./data/taladrod-cars.min.json";
 import StackBar from "./StackBar";
+import PieChart from "./PieChart";
 
 function Dashboard() {
   return (
@@ -67,23 +68,6 @@ function Table() {
     setBrandToCarsMap(groupedCars);
   }
 
-  function pieChartData(brandToCarsMap) {
-    const data = [];
-    Object.keys(brandToCarsMap).forEach((carModel, index) => {
-      const carCount = brandToCarsMap[carModel].length;
-      data.push({
-        id: index + 1,
-        value: carCount,
-        label: carModel,
-      });
-      // console.log(brandToCarsMap[carModel]);
-    });
-
-    data.sort((a, b) => b.value - a.value);
-
-    return data;
-  }
-
   useState(() => {
     groupCarsByBrand();
   }, []);
@@ -93,9 +77,9 @@ function Table() {
       <h1 className="font-medium text-2xl p-4 mb-10 font-semibold bg-[#3C3D37] rounded">
         Car Brand Proportions
       </h1>
-      {/* <div className="w-1/2">
-        
-      </div> */}
+      <div className="flex justify-center w-full w-screen h-100vh mt-10">
+        <PieChart brandToCarsMap={brandToCarsMap} />
+      </div>
       <h1 className="font-medium text-2xl p-4 my-10 font-semibold bg-[#3C3D37] rounded">
         Car Models by Brand
       </h1>
