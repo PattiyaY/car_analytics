@@ -12,40 +12,25 @@ function Dashboard() {
 }
 
 function Table() {
-  const [highlightItems, setHighlightItems] = useState([
-    {
-      brand: "TOYOTA",
-      model: "JAZZ",
-      Img600: "https://imgc1.taladrod.com/c/cidx/012/319/01_1.jpg",
-      Currency: "Baht",
-      Status: "new",
-      NameMMT: "HONDA JAZZ 1.5 i-VTEC V ปี08-14",
-      Prc: "258,000",
-      Province: "Bangkok",
-    },
-    {
-      brand: "TOYOTA",
-      model: "JAZZ",
-      Img600: "https://imgc1.taladrod.com/c/cidx/012/319/01_1.jpg",
-      Currency: "Baht",
-      Status: "new",
-      NameMMT: "HONDA JAZZ 1.5 i-VTEC V ปี08-14",
-      Prc: "258,000",
-      Province: "Bangkok",
-    },
-  ]);
+  const [highlightItems, setHighlightItems] = useState(() => {
+    const saved = localStorage.getItem("highlight");
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [brandToCarsMap, setBrandToCarsMap] = useState({});
+
+  function handleOnClickRemove(car) {
+    setHighlightItems((prev) => {
+      return prev.filter((item) => item.Cid !== car.Cid);
+    });
+  }
+
+  function handleOnClickAdd(car) {
+    setHighlightItems((prev) => [...prev, car]);
+  }
 
   useEffect(() => {
     localStorage.setItem("highlight", JSON.stringify(highlightItems));
   }, [highlightItems]);
-
-  const [brandToCarsMap, setBrandToCarsMap] = useState({});
-
-  function handleOnClick(event) {
-    //TODO(jan): get data of click row
-    let car = event;
-    setHighlightItems([car]);
-  }
 
   function groupCarsByBrand() {
     const brandMap = new Map();
@@ -65,12 +50,28 @@ function Table() {
       }
     });
 
+    localStorage.setItem("groupedCars", JSON.stringify(groupedCars));
     setBrandToCarsMap(groupedCars);
   }
 
-  useState(() => {
-    groupCarsByBrand();
+  useEffect(() => {
+    const savedGroupedCars = localStorage.getItem("groupedCars");
+    const savedHighlightedItems = localStorage.getItem("highlight");
+
+    if (savedGroupedCars) {
+      setBrandToCarsMap(JSON.parse(savedGroupedCars));
+    } else {
+      groupCarsByBrand();
+    }
+
+    if (savedHighlightedItems) {
+      setHighlightItems(JSON.parse(savedHighlightedItems));
+    }
   }, []);
+
+  function checkInHighlightedItems(car) {
+    return highlightItems.some((item) => item.Cid === car.Cid);
+  }
 
   return (
     <div className="flex flex-col text-white bg-white">
@@ -120,22 +121,37 @@ function Table() {
                   {brandToCarsMap[carModel].map((car, index) => (
                     <tr key={`${carModel}-${index}`}>
                       <td className="border-b border-slate-100 dark:border-slate-700 p-3 text-slate-500 dark:text-black">
-                        <button onClick={handleOnClick}>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth={1.5}
-                            stroke="currentColor"
-                            className="size-6"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z"
-                            />
-                          </svg>
-                        </button>
+                        {checkInHighlightedItems(car) ? (
+                          <button onClick={() => handleOnClickRemove(car)}>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              x="0px"
+                              y="0px"
+                              width="24"
+                              height="24"
+                              viewBox="0 0 24 24"
+                            >
+                              <path d="M 6 2 C 5.861875 2 5.7278809 2.0143848 5.5976562 2.0410156 C 4.686084 2.2274316 4 3.033125 4 4 L 4 22 L 12 19 L 20 22 L 20 4 C 20 3.8625 19.985742 3.7275391 19.958984 3.5976562 C 19.799199 2.8163086 19.183691 2.2008008 18.402344 2.0410156 C 18.272119 2.0143848 18.138125 2 18 2 L 6 2 z"></path>
+                            </svg>
+                          </button>
+                        ) : (
+                          <button onClick={() => handleOnClickAdd(car)}>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth={1.5}
+                              stroke="currentColor"
+                              className="size-6"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z"
+                              />
+                            </svg>
+                          </button>
+                        )}
                       </td>
                       <td className="border-b border-slate-100 dark:border-slate-700 p-3 text-slate-500 dark:text-black">
                         {index + 1}
