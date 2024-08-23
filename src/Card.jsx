@@ -7,15 +7,12 @@ function Card({ data, onClick }) {
 
   return (
     <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow">
-      <img className="rounded-t-lg w-full" src={data.Img600} alt="" />
-      {data.Status === "new" ? (
-        <img
-          className="relative bottom-[285px] float-right"
-          src={newImg}
-          alt="new"
-          width={100}
-        />
-      ) : null}
+      <div className="relative">
+        <img className="rounded-t-lg w-full" src={data.Img600} alt="" />
+        {data.Status === "new" ? (
+          <img className="absolute top-0 right-0" src={newImg} alt="new" width={100} />
+        ) : null}
+      </div>
       <div className="p-5">
         <div className="flex">
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 ">
