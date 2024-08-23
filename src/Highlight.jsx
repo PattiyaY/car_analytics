@@ -9,7 +9,7 @@ function Highlight() {
 
   function handleOnClick(car) {
     const findIndex = highlightItems.findIndex(
-      (item) => item.Name === car.Name && item.NameMMT === car.NameMMT
+      (item) => item.Cid === car.Cid
     );
 
     const updatedHighlightItems = highlightItems.filter(
