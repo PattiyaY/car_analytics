@@ -8,9 +8,7 @@ function Highlight() {
   });
 
   function handleOnClick(car) {
-    const findIndex = highlightItems.findIndex(
-      (item) => item.Cid === car.Cid
-    );
+    const findIndex = highlightItems.findIndex((item) => item.Cid === car.Cid);
 
     const updatedHighlightItems = highlightItems.filter(
       (_, index) => index !== findIndex

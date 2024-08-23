@@ -10,7 +10,12 @@ function Card({ data, onClick }) {
       <div className="relative">
         <img className="rounded-t-lg w-full" src={data.Img600} alt="" />
         {data.Status === "new" ? (
-          <img className="absolute top-0 right-0" src={newImg} alt="new" width={100} />
+          <img
+            className="absolute top-0 right-0"
+            src={newImg}
+            alt="new"
+            width={100}
+          />
         ) : null}
       </div>
       <div className="p-5">
