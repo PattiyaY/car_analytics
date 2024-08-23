@@ -5,9 +5,9 @@ function NavBar() {
   return (
     <nav className="px-16 py-5">
       <div className="flex justify-between">
-        <a href="/" className="">
+        <Link href="" className="">
           <span className="font-medium text-2xl">Car Analytics</span>
-        </a>
+        </Link>
         <div className="navbar">
           <ul className="flex gap-5">
             {links.map((link) => (
