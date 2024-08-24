@@ -40,8 +40,8 @@ This repository contains **Project 1** for the CSX4107 Web Application Developme
 
 ## Contributors
 
-- **Jan Poonthong**
-- **Pattiya Yiadram**
+- **Jan Poonthong,   6511286**
+- **Pattiya Yiadram, 6510359**
 
 ## Screenshots
 ![Alt text](/screenshots/image1.png)
